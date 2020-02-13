@@ -10,7 +10,11 @@
 #import <UIKit/UIKit.h>
 
 @interface RNSplashScreen : NSObject<RCTBridgeModule>
+
++ (RNSplashScreen *) sharedInstance;
 + (void)showSplash:(NSString*)splashScreen inRootView:(UIView*)rootView;
 + (void)show;
 + (void)hide;
++ (BOOL)isWaiting;
+
 @end

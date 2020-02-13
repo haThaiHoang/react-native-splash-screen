@@ -13,11 +13,34 @@
 static bool waiting = true;
 static bool addedJsLoadErrorObserver = false;
 static UIView* loadingView = nil;
+static RNSplashScreen * sharedInstance;
 
 @implementation RNSplashScreen
+
 - (dispatch_queue_t)methodQueue{
     return dispatch_get_main_queue();
 }
+
+#pragma mark Singleton Methods
++ (id)sharedInstance
+{
+    @synchronized(self) {
+        if(sharedInstance == nil)
+            sharedInstance = [[super allocWithZone:NULL] init];
+    }
+    return sharedInstance;
+}
+
++ (id)allocWithZone:(NSZone *)zone
+{
+    return [self sharedInstance];
+}
+
+- (id)copyWithZone:(NSZone *)zone
+{
+    return self;
+}
+
 RCT_EXPORT_MODULE(SplashScreen)
 
 + (void)show {
@@ -40,6 +63,7 @@ RCT_EXPORT_MODULE(SplashScreen)
         loadingView.frame = frame;
     }
     waiting = false;
+    
     
     [rootView addSubview:loadingView];
 }
@@ -68,6 +92,10 @@ RCT_EXPORT_METHOD(hide) {
 
 RCT_EXPORT_METHOD(show) {
     [RNSplashScreen show];
+}
+
++ (BOOL) isWaiting {
+    return waiting;
 }
 
 @end

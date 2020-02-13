@@ -17,6 +17,7 @@ import java.lang.ref.WeakReference;
 public class SplashScreen {
     private static Dialog mSplashDialog;
     private static WeakReference<Activity> mActivity;
+    public static Boolean isWaiting = true;
 
     /**
      * 打开启动屏
@@ -83,6 +84,7 @@ public class SplashScreen {
 
                     if (!_activity.isFinishing() && !isDestroyed) {
                         mSplashDialog.dismiss();
+                        isWaiting = false;
                     }
                     mSplashDialog = null;
                 }
